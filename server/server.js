@@ -16,39 +16,22 @@ const assignmentRoutes = require('./routes/assignment');
 const certificateRoutes = require('./routes/certificate');
 const dashboardRoutes = require('./routes/dashboard');
 const enrollmentRoutes = require('./routes/enrollment');
-const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/admin'); 
+
 
 const app = express();
 
-// ✅ DB connection
+// DB connection
 connectDB();
 
-// =======================================
-// 🔥 CORS CONFIG (FINAL)
-// =======================================
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://lms-three-rosy.vercel.app"
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-};
-
-app.use(cors(corsOptions));   // ✅ enough hai
-app.use(express.json());
-
-// =======================================
 // Middleware
-// =======================================
-
+app.use(cors());app.use(cors({
+  origin: [
+  "https://lms-1-rab2.onrender.com",
+  "http://localhost:5173"
+],
+  credentials: true
+}));
 app.use(express.json());
 
 // Test route
@@ -56,30 +39,35 @@ app.get('/', (req, res) => {
   res.json({ message: 'LMS API Server' });
 });
 
-// =======================================
-// Routes
-// =======================================
 
 app.use('/api/auth', authRoutes);
+
 app.use('/api/test', protectedRoutes);
+
 app.use('/api/role', roleRoutes);
+
 app.use('/api/course', courseRoutes);
+
 app.use('/api/lecture', lectureRoutes);
+
 app.use('/api/progress', progressRoutes);
+
 app.use('/api/watch-time', watchTimeRoutes);
+
 app.use('/api/test', testRoutes);
+
 app.use('/api/assignment', assignmentRoutes);
+
 app.use('/api/certificate', certificateRoutes);
+
 app.use('/api/dashboard', dashboardRoutes);
+
 app.use('/api/enrollment', enrollmentRoutes);
+
 app.use('/api/admin', adminRoutes);
 
-// =======================================
 // Server start
-// =======================================
-
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
