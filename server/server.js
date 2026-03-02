@@ -26,15 +26,13 @@ connectDB();
 // =======================================
 // 🔥 CORS CONFIG (FINAL)
 // =======================================
-
 const allowedOrigins = [
-  "http://localhost:5173",            // local frontend
-  "https://lms-three-rosy.vercel.app" // deployed frontend
+  "http://localhost:5173",
+  "https://lms-three-rosy.vercel.app"
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -44,11 +42,8 @@ const corsOptions = {
   credentials: true,
 };
 
-// apply cors
-app.use(cors(corsOptions));
-
-// 🔥 IMPORTANT — handle preflight requests
-app.options('/*', cors(corsOptions));
+app.use(cors(corsOptions));   // ✅ enough hai
+app.use(express.json());
 
 // =======================================
 // Middleware
