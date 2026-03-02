@@ -25,8 +25,8 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());app.use(cors({
-  origin: [,
+app.use(cors({
+  origin: ["https://lms-three-rosy.vercel.app/",
   "http://localhost:5173"
 ],
   credentials: true
