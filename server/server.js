@@ -16,22 +16,44 @@ const assignmentRoutes = require('./routes/assignment');
 const certificateRoutes = require('./routes/certificate');
 const dashboardRoutes = require('./routes/dashboard');
 const enrollmentRoutes = require('./routes/enrollment');
-const adminRoutes = require('./routes/admin'); 
-
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
-// DB connection
+// ✅ DB connection
 connectDB();
 
+// =======================================
+// 🔥 CORS CONFIG (FINAL)
+// =======================================
+
+const allowedOrigins = [
+  "http://localhost:5173",            // local frontend
+  "https://lms-three-rosy.vercel.app" // deployed frontend
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+// apply cors
+app.use(cors(corsOptions));
+
+// 🔥 IMPORTANT — handle preflight requests
+app.options('*', cors(corsOptions));
+
+// =======================================
 // Middleware
-app.use(cors({
-  origin: [
-    "http://localhost:5173",              
-    "https://lms-three-rosy.vercel.app"   
-  ],
-  credentials: true
-}));
+// =======================================
+
 app.use(express.json());
 
 // Test route
@@ -39,34 +61,28 @@ app.get('/', (req, res) => {
   res.json({ message: 'LMS API Server' });
 });
 
+// =======================================
+// Routes
+// =======================================
 
 app.use('/api/auth', authRoutes);
-
 app.use('/api/test', protectedRoutes);
-
 app.use('/api/role', roleRoutes);
-
 app.use('/api/course', courseRoutes);
-
 app.use('/api/lecture', lectureRoutes);
-
 app.use('/api/progress', progressRoutes);
-
 app.use('/api/watch-time', watchTimeRoutes);
-
 app.use('/api/test', testRoutes);
-
 app.use('/api/assignment', assignmentRoutes);
-
 app.use('/api/certificate', certificateRoutes);
-
 app.use('/api/dashboard', dashboardRoutes);
-
 app.use('/api/enrollment', enrollmentRoutes);
-
 app.use('/api/admin', adminRoutes);
 
+// =======================================
 // Server start
+// =======================================
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
