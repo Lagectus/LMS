@@ -26,9 +26,10 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ["https://lms-three-rosy.vercel.app/",
-  "http://localhost:5173"
-],
+  origin: [
+    "http://localhost:5173",              
+    "https://lms-three-rosy.vercel.app"   
+  ],
   credentials: true
 }));
 app.use(express.json());
