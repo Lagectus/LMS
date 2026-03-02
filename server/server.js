@@ -25,7 +25,7 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());app.use(cors({
+app.use(cors({
   origin: [
   "https://lms-1-rab2.onrender.com",
   "http://localhost:5173"
