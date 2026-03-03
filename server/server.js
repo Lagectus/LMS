@@ -3,6 +3,13 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
+app.use(cors({
+  origin: "https://lms-1-rab2.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+
 // Routes
 const authRoutes = require('./routes/auth');
 const protectedRoutes = require('./routes/protected');
@@ -25,13 +32,7 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors({
-  origin: [
-  "https://lms-1-rab2.onrender.com",
-  "http://localhost:5173"
-],
-  credentials: true
-}));
+
 app.use(express.json());
 
 // Test route
