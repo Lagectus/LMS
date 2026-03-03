@@ -3,11 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
-app.use(cors({
-  origin: "https://lms-1-rab2.onrender.com",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
 
 
 // Routes
@@ -32,6 +27,14 @@ const app = express();
 connectDB();
 
 // Middleware
+app.use(cors({
+  origin: "https://lms-1-rab2.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+
+
 
 app.use(express.json());
 
