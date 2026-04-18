@@ -28,7 +28,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: "https://lms-1-rab2.onrender.com",
+  origin: "https://lms-mocha-ten.vercel.app/",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
